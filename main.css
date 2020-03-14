@@ -1,0 +1,7 @@
+.miContenedor{
+    margin: 50px;
+}
+
+#btnActualizarUsuario{
+    display: none;
+}
