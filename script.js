@@ -1,5 +1,7 @@
 let usuarios = []
 
+let indexActualizar = null
+
 function atraparDatos(){
     let tipoDocumento = document.getElementById("cmbIdentificacion").value
     let identificacion = document.getElementById("txtId").value
@@ -52,8 +54,8 @@ function listarUsuario(){
         data += `<td>${usuario.estatura}</td>`
         data += `<td>${usuario.imc}</td>`
         data += `<td><button type="button" onclick = "mostrarEstadoPeso(${i})" class="btn btn-primary">Ver Estado</button></td>`
-        data += `<td><button type="button" onclick = "cargarInfo(${i})" class="btn btn-primary">Editar</button></td>`
-        data += `<td><button type="button" onclick = "eliminar(${i})" class="btn btn-primary">Eliminar</button></td>`
+        data += `<td><button type="button" onclick = "cargarDatos(${i})" class="btn btn-primary">Editar</button></td>`
+        data += `<td><button type="button" onclick = "eliminarUsuario(${i})" class="btn btn-primary">Eliminar</button></td>`
         data += "</tr>"
     }
     lista.innerHTML = data
@@ -82,6 +84,34 @@ function mostrarEstadoPeso(index){
     </div>
   </div>`
   ventana.innerHTML = data
+}
+
+function eliminarUsuario(index){
+    usuarios.splice(index,1)
+    listarUsuario()
+}
+
+function cargarDatos(index){
+    indexActualizar = index
+    let usuario = usuarios[index]
+    document.getElementById("cmbIdentificacion").value = usuario.tipoDocumento
+    document.getElementById("txtId").value = usuario.identificacion
+    document.getElementById("txtNombres").value = usuario.nombres
+    document.getElementById("txtApellidos").value = usuario.apellidos
+    document.getElementById("txtEmail").value = usuario.correo
+    document.getElementById("txtPeso").value = usuario.peso
+    document.getElementById("txtEstatura").value = usuario.estatura
+    document.getElementById("btnCrearUsuario").style.display = "none"
+    document.getElementById("btnActualizarUsuario").style.display = "inline"
+}
+
+function actualizarUsuario(){
+    let usuario = atraparDatos()
+    usuarios.splice(indexActualizar,1,usuario)
+    listarUsuario()
+    limpiarCampos()
+    document.getElementById("btnCrearUsuario").style.display = "inline"
+    document.getElementById("btnActualizarUsuario").style.display = "none"
 }
 
 function calcularImc(altura,peso){
@@ -121,11 +151,11 @@ function determinarEstadoPeso(imc){
 }
 
 function limpiarCampos(){
-    let tipoDocumento = document.getElementById("cmbIdentificacion").value = ""
-    let identificacion = document.getElementById("txtId").value = ""
-    let nombres = document.getElementById("txtNombres").value = ""
-    let apellidos = document.getElementById("txtApellidos").value = ""
-    let correo = document.getElementById("txtEmail").value = ""
-    let peso = document.getElementById("txtPeso").value = ""
-    let estatura = document.getElementById("txtEstatura").value = ""
+     document.getElementById("cmbIdentificacion").value = ""
+     document.getElementById("txtId").value = ""
+     document.getElementById("txtNombres").value = ""
+     document.getElementById("txtApellidos").value = ""
+     document.getElementById("txtEmail").value = ""
+     document.getElementById("txtPeso").value = ""
+     document.getElementById("txtEstatura").value = ""
 }
