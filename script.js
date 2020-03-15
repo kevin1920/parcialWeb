@@ -2,7 +2,7 @@ let usuarios = []
 
 let indexActualizar = null
 
-function atraparDatos(){
+function atraparDatos() {
     let tipoDocumento = document.getElementById("cmbIdentificacion").value
     let identificacion = document.getElementById("txtId").value
     let nombres = document.getElementById("txtNombres").value
@@ -11,24 +11,25 @@ function atraparDatos(){
     let peso = parseFloat(document.getElementById("txtPeso").value)
     let estatura = parseFloat(document.getElementById("txtEstatura").value)
 
-    let imc = calcularImc(estatura,peso)
+    let imc = calcularImc(estatura, peso)
     let estadoPeso = determinarEstadoPeso(imc)
 
-    usuario = {tipoDocumento,identificacion,nombres,apellidos,correo,peso,estatura,imc,estadoPeso}
+    usuario = { tipoDocumento, identificacion, nombres, apellidos, correo, peso, estatura, imc, estadoPeso }
     return usuario
 }
 
-function crearUsuario(){
+function crearUsuario() {
+    limpiarMensajes()
     let usuario = atraparDatos()
     let usuarioExiste = usuarios.find(x => usuario.identificacion === x.identificacion)
     let mensaje = document.getElementById("mensaje")
     let data = ""
-    if(usuarioExiste){
+    if (usuarioExiste) {
         data = `<div class="alert alert-danger" role="alert">
         Error,El usuario ya existe <a href="#" class="alert-link"></a>
         </div>`
         mensaje.innerHTML = data
-    }else{
+    } else {
         usuarios.push(usuario)
         data = `<div class="alert alert-success" role="alert">
         El usuario se agrego correctamente <a href="#" class="alert-link"></a>
@@ -39,10 +40,10 @@ function crearUsuario(){
     }
 }
 
-function listarUsuario(){
+function listarUsuario() {
     let lista = document.getElementById("listaUsuarios")
     let data = ""
-    for(let i = 0; i<usuarios.length; i++){
+    for (let i = 0; i < usuarios.length; i++) {
         let usuario = usuarios[i]
         data += "<tr>"
         data += `<td>${usuario.tipoDocumento}</td>`
@@ -50,8 +51,8 @@ function listarUsuario(){
         data += `<td>${usuario.nombres}</td>`
         data += `<td>${usuario.apellidos}</td>`
         data += `<td>${usuario.correo}</td>`
-        data += `<td>${usuario.peso}</td>`
-        data += `<td>${usuario.estatura}</td>`
+        data += `<td>${usuario.peso}kg</td>`
+        data += `<td>${usuario.estatura}m</td>`
         data += `<td>${usuario.imc}</td>`
         data += `<td><button type="button" onclick = "mostrarEstadoPeso(${i})" class="btn btn-primary">Ver Estado</button></td>`
         data += `<td><button type="button" onclick = "cargarDatos(${i})" class="btn btn-primary">Editar</button></td>`
@@ -61,37 +62,25 @@ function listarUsuario(){
     lista.innerHTML = data
 }
 
-function mostrarEstadoPeso(index){
+function mostrarEstadoPeso(index) {
+    limpiarMensajes()
     let usuario = usuarios[index]
     let ventana = document.getElementById("ventanaEmergente")
     let data = ""
-    data = `<div class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Estado del nivel de peso</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p>${usuario.estadoPeso}</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        </div>
-      </div>
-    </div>
-  </div>`
-  ventana.innerHTML = data
+    data = `<div class="alert alert-dark" role="alert">
+    El usuario ${usuario.nombres} tiene ${usuario.estadoPeso} <a href="#" class="alert-link"></a>
+    </div>`
+    ventana.innerHTML = data
 }
 
-function eliminarUsuario(index){
-    usuarios.splice(index,1)
+function eliminarUsuario(index) {
+    limpiarMensajes()
+    usuarios.splice(index, 1)
     listarUsuario()
 }
 
-function cargarDatos(index){
+function cargarDatos(index) {
+    limpiarMensajes()
     indexActualizar = index
     let usuario = usuarios[index]
     document.getElementById("cmbIdentificacion").value = usuario.tipoDocumento
@@ -105,57 +94,63 @@ function cargarDatos(index){
     document.getElementById("btnActualizarUsuario").style.display = "inline"
 }
 
-function actualizarUsuario(){
+function actualizarUsuario() {
     let usuario = atraparDatos()
-    usuarios.splice(indexActualizar,1,usuario)
+    usuarios.splice(indexActualizar, 1, usuario)
     listarUsuario()
     limpiarCampos()
     document.getElementById("btnCrearUsuario").style.display = "inline"
     document.getElementById("btnActualizarUsuario").style.display = "none"
 }
 
-function calcularImc(altura,peso){
-    return peso/Math.pow(altura,2)
+function calcularImc(altura, peso) {
+    return peso / Math.pow(altura, 2)
 }
 
-function determinarEstadoPeso(imc){
+function determinarEstadoPeso(imc) {
     let estadoPeso = ""
-    switch(imc){
-        case imc<18.5:
-            estadoPeso = "Peso insuficiente"
-            break;
-        case 18.5<=imc<=24.9:
-            estadoPeso = "Peso Normal"
-            break;
-        case 25<=imc<=26.9:
-            estadoPeso = "Sobre peso grado 1"
-            break;
-        case 27<=imc<=29.9:
-            estadoPeso = "Sobre peso grado 2 (preobesidad)"
-            break;
-        case 30<=imc<=34.9:
-            estadoPeso = "Obesidad de tipo 1"
-            break;
-        case 35<=imc<=39.9:
-            estadoPeso = "obesidad de tipo 2"
-            break;    
-        case 40<=imc<=49.9:
-            estadoPeso = "Obesidad de tipo 3 (mórbida)"
-            break;
-        case imc>50:
-            estadoPeso = "Obesidad de tipo 4 (extrema)"
-            break;
+
+    if (imc < 18.5) {
+        estadoPeso = "Peso insuficiente"
     }
-    
+    if (18.5 <= imc && imc <= 24.9) {
+        estadoPeso = "Peso Normal"
+    } 
+    if (25 <= imc && imc <= 26.9) {
+        estadoPeso = "Sobre peso grado 1"
+    } 
+    if (27 <= imc && imc <= 29.9) {
+        estadoPeso = "Sobre peso grado 2 (preobesidad)"
+    } 
+    if (30 <= imc && imc <= 34.9) {
+        estadoPeso = "Obesidad de tipo 1"
+    } 
+    if (35 <= imc && imc <= 39.9) {
+        estadoPeso = "obesidad de tipo 2"
+    } 
+    if (40 <= imc && imc <= 49.9) {
+        estadoPeso = "Obesidad de tipo 3 (mórbida)"
+    } 
+    if (imc > 50){
+        estadoPeso = "Obesidad de tipo 4 (extrema)"
+    }    
+
     return estadoPeso
 }
 
-function limpiarCampos(){
-     document.getElementById("cmbIdentificacion").value = ""
-     document.getElementById("txtId").value = ""
-     document.getElementById("txtNombres").value = ""
-     document.getElementById("txtApellidos").value = ""
-     document.getElementById("txtEmail").value = ""
-     document.getElementById("txtPeso").value = ""
-     document.getElementById("txtEstatura").value = ""
+function limpiarCampos() {
+    document.getElementById("cmbIdentificacion").value = ""
+    document.getElementById("txtId").value = ""
+    document.getElementById("txtNombres").value = ""
+    document.getElementById("txtApellidos").value = ""
+    document.getElementById("txtEmail").value = ""
+    document.getElementById("txtPeso").value = ""
+    document.getElementById("txtEstatura").value = ""
+}
+
+function limpiarMensajes(){
+    let ventana = document.getElementById("ventanaEmergente")
+    let mensaje = document.getElementById("mensaje")
+    ventana.innerHTML=""
+    mensaje.innerHTML=""
 }

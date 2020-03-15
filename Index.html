@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="main.css">
 </head>
+
 <body>
     <div class="miContenedor">
         <h1>IMC</h1>
@@ -18,28 +20,31 @@
                         <label for="exampleFormControlSelect1">Tipo de Identificacion</label>
                         <select class="form-control" id="cmbIdentificacion" required>
                             <option value="00" disabled>Seleccione el tipo de identificacion</option>
-                            <option value="01">CC</option>
-                            <option value="02">CE</option>
-                            <option value="03">RN</option>
-                            <option value="04">TI</option>
+                            <option value="CC">CC</option>
+                            <option value="CE">CE</option>
+                            <option value="RN">RN</option>
+                            <option value="TI">TI</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="id">Identificacion</label>
-                        <input type="number" class="form-control" id="txtId"
-                            placeholder="Ingrese su Identificacion" required>
+                        <input type="number" class="form-control" id="txtId" placeholder="Ingrese su Identificacion"
+                            required>
                     </div>
                     <div class="form-group">
                         <label for="nombre">Nombres</label>
-                        <input type="text" class="form-control" id="txtNombres" placeholder="Ingrese sus nombres" required>
+                        <input type="text" class="form-control" id="txtNombres" placeholder="Ingrese sus nombres"
+                            required>
                     </div>
                     <div class="form-group">
                         <label for="apellido">Apellidos</label>
-                        <input type="text" class="form-control" id="txtApellidos" placeholder="Ingrese sus apellidos" required>
+                        <input type="text" class="form-control" id="txtApellidos" placeholder="Ingrese sus apellidos"
+                            required>
                     </div>
                     <div class="form-group">
                         <label for="email">Correo</label>
-                        <input type="email" class="form-control" id="txtEmail" placeholder="Ingrese su correo electronico" required>
+                        <input type="email" class="form-control" id="txtEmail"
+                            placeholder="Ingrese su correo electronico" required>
                     </div>
                     <div class="form-group">
                         <label for="nombre">Peso</label>
@@ -47,37 +52,40 @@
                     </div>
                     <div class="form-group">
                         <label for="nombre">Estatura</label>
-                        <input type="text" class="form-control" id="txtEstatura" placeholder="Ingrese su estatura" required>
+                        <input type="text" class="form-control" id="txtEstatura" placeholder="Ingrese su estatura"
+                            required>
                     </div>
-                   
+
                     <button type="submit" class="btn btn-primary" id="btnCrearUsuario">Crear y Calcular</button>
-                    <button type="button" class="btn btn-primary" onclick="actualizarUsuario()" id="btnActualizarUsuario">Actualizar Usuario</button>    
+                    <button type="button" class="btn btn-primary" onclick="actualizarUsuario()"
+                        id="btnActualizarUsuario">Actualizar Usuario</button>
                 </form>
                 <table class="table">
                     <thead>
-                      <tr>
-                        <th scope="col">Tipo de documento</th>
-                        <th scope="col">Identificacion</th>
-                        <th scope="col">Nombres</th>
-                        <th scope="col">Apellidos</th>
-                        <th scope="col">Correo</th>
-                        <th scope="col">Peso</th>
-                        <th scope="col">Estatura</th>
-                        <th scope="col">IMC</th>
-                        <th scope="col">Estado</th>
-                        <th scope="col">Editar</th>
-                        <th scope="col">Eliminar</th>
-                      </tr>
+                        <tr>
+                            <th scope="col">Tipo de documento</th>
+                            <th scope="col">Identificacion</th>
+                            <th scope="col">Nombres</th>
+                            <th scope="col">Apellidos</th>
+                            <th scope="col">Correo</th>
+                            <th scope="col">Peso</th>
+                            <th scope="col">Estatura</th>
+                            <th scope="col">IMC</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col">Editar</th>
+                            <th scope="col">Eliminar</th>
+                        </tr>
                     </thead>
                     <tbody id="listaUsuarios">
                     </tbody>
-                  </table>
-                  <div id="mensaje">
+                </table>
+                <div id="mensaje">
 
-                  </div>
-                  <div id="ventanaEmergente">
+                </div>
+                <div id="ventanaEmergente">
 
-                  </div>
+
+                </div>
             </div>
         </div>
     </div>
@@ -92,4 +100,5 @@
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
 </body>
+
 </html>
