@@ -1,5 +1,7 @@
 let usuarios = []
 
+obtenerInfoLocalStorage()
+
 let indexActualizar = null
 
 function atraparDatos() {
@@ -35,6 +37,7 @@ function crearUsuario() {
         El usuario se agrego correctamente <a href="#" class="alert-link"></a>
         </div>`
         mensaje.innerHTML = data
+        agregarInfoLocalStorage(usuarios)
         listarUsuario()
         limpiarCampos()
     }
@@ -77,6 +80,7 @@ function eliminarUsuario(index) {
     limpiarMensajes()
     usuarios.splice(index, 1)
     listarUsuario()
+    agregarInfoLocalStorage(usuarios)
 }
 
 function cargarDatos(index) {
@@ -99,6 +103,7 @@ function actualizarUsuario() {
     usuarios.splice(indexActualizar, 1, usuario)
     listarUsuario()
     limpiarCampos()
+    agregarInfoLocalStorage(usuarios)
     document.getElementById("btnCrearUsuario").style.display = "inline"
     document.getElementById("btnActualizarUsuario").style.display = "none"
 }
@@ -153,4 +158,18 @@ function limpiarMensajes(){
     let mensaje = document.getElementById("mensaje")
     ventana.innerHTML=""
     mensaje.innerHTML=""
+}
+
+function agregarInfoLocalStorage(listaUsuario){
+    localStorage.setItem("ListaUsuarios",JSON.stringify(listaUsuario))
+}
+
+function obtenerInfoLocalStorage(){
+    let listaObtenida = localStorage.getItem("ListaUsuarios")
+    if(listaObtenida == null){
+        usuarios = []
+    }else{
+        usuarios = JSON.parse(listaObtenida)
+        listarUsuario()
+    }
 }
