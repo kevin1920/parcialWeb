@@ -3,6 +3,7 @@ let usuarios = []
 obtenerInfoLocalStorage()
 
 let indexActualizar = null
+let idValidacionActualizar = null
 
 function atraparDatos() {
     let tipoDocumento = document.getElementById("cmbIdentificacion").value
@@ -10,7 +11,7 @@ function atraparDatos() {
     let nombres = document.getElementById("txtNombres").value
     let apellidos = document.getElementById("txtApellidos").value
     let correo = document.getElementById("txtEmail").value
-    let peso = parseFloat(document.getElementById("txtPeso").value)
+    let peso = document.getElementById("txtPeso").value
     let estatura = parseFloat(document.getElementById("txtEstatura").value)
 
     let imc = calcularImc(estatura, peso)
@@ -28,7 +29,7 @@ function crearUsuario() {
     let data = ""
     if (usuarioExiste) {
         data = `<div class="alert alert-danger" role="alert">
-        Error,El usuario ya existe <a href="#" class="alert-link"></a>
+        Error, ya hay un usuario con ese numero de identificacion <a href="#" class="alert-link"></a>
         </div>`
         mensaje.innerHTML = data
     } else {
@@ -68,12 +69,7 @@ function listarUsuario() {
 function mostrarEstadoPeso(index) {
     limpiarMensajes()
     let usuario = usuarios[index]
-    let ventana = document.getElementById("ventanaEmergente")
-    let data = ""
-    data = `<div class="alert alert-dark" role="alert">
-    El usuario ${usuario.nombres} tiene ${usuario.estadoPeso} <a href="#" class="alert-link"></a>
-    </div>`
-    ventana.innerHTML = data
+    window.alert("El usuario "+usuario.nombres+" tiene "+usuario.estadoPeso)
 }
 
 function eliminarUsuario(index) {
@@ -81,12 +77,19 @@ function eliminarUsuario(index) {
     usuarios.splice(index, 1)
     listarUsuario()
     agregarInfoLocalStorage(usuarios)
+    let mensaje = document.getElementById("mensaje")
+    let data = ""
+    data = `<div class="alert alert-success" role="alert">
+        El usuario se Elimino correctamente <a href="#" class="alert-link"></a>
+        </div>`
+    mensaje.innerHTML = data
 }
 
 function cargarDatos(index) {
     limpiarMensajes()
     indexActualizar = index
     let usuario = usuarios[index]
+    idValidacionActualizar = usuario.identificacion
     document.getElementById("cmbIdentificacion").value = usuario.tipoDocumento
     document.getElementById("txtId").value = usuario.identificacion
     document.getElementById("txtNombres").value = usuario.nombres
@@ -100,12 +103,27 @@ function cargarDatos(index) {
 
 function actualizarUsuario() {
     let usuario = atraparDatos()
-    usuarios.splice(indexActualizar, 1, usuario)
-    listarUsuario()
-    limpiarCampos()
-    agregarInfoLocalStorage(usuarios)
-    document.getElementById("btnCrearUsuario").style.display = "inline"
-    document.getElementById("btnActualizarUsuario").style.display = "none"
+    let existeUsuario = usuarios.find(x => usuario.identificacion === x.identificacion && usuario.identificacion != idValidacionActualizar)
+    let mensaje = document.getElementById("mensaje")
+    let data = ""
+    if(existeUsuario){
+        data = `<div class="alert alert-danger" role="alert">
+        Error, ya hay un usuario con ese numero de identificacion <a href="#" class="alert-link"></a>
+        </div>`
+        mensaje.innerHTML = data
+    }else{
+        usuarios.splice(indexActualizar, 1, usuario)
+        data = `<div class="alert alert-success" role="alert">
+        El usuario se actualizo correctamente <a href="#" class="alert-link"></a>
+        </div>`
+        mensaje.innerHTML = data
+        listarUsuario()
+        limpiarCampos()
+        agregarInfoLocalStorage(usuarios)
+        document.getElementById("btnCrearUsuario").style.display = "inline"
+        document.getElementById("btnActualizarUsuario").style.display = "none"
+    }
+    
 }
 
 function calcularImc(altura, peso) {
@@ -122,10 +140,10 @@ function determinarEstadoPeso(imc) {
         estadoPeso = "Peso Normal"
     } 
     if (25 <= imc && imc <= 26.9) {
-        estadoPeso = "Sobre peso grado 1"
+        estadoPeso = "Sobrepeso grado 1"
     } 
     if (27 <= imc && imc <= 29.9) {
-        estadoPeso = "Sobre peso grado 2 (preobesidad)"
+        estadoPeso = "Sobrepeso grado 2 (preobesidad)"
     } 
     if (30 <= imc && imc <= 34.9) {
         estadoPeso = "Obesidad de tipo 1"
@@ -154,9 +172,7 @@ function limpiarCampos() {
 }
 
 function limpiarMensajes(){
-    let ventana = document.getElementById("ventanaEmergente")
     let mensaje = document.getElementById("mensaje")
-    ventana.innerHTML=""
     mensaje.innerHTML=""
 }
 
